@@ -8,7 +8,8 @@ CREATE TABLE `internship_system`.`groups` (
 
 CREATE TABLE `internship_system`.`mentors` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
-    `name` VARCHAR(255) NOT NULL ,
+    `first_name` VARCHAR(255) NOT NULL ,
+    `last_name` VARCHAR(255) NOT NULL ,
     `group_id` BIGINT UNSIGNED NOT NULL ,
     FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
     PRIMARY KEY (`id`))
@@ -16,7 +17,8 @@ CREATE TABLE `internship_system`.`mentors` (
 
 CREATE TABLE `internship_system`.`interns` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
-    `name` VARCHAR(255) NOT NULL ,
+    `first_name` VARCHAR(255) NOT NULL ,
+    `last_name` VARCHAR(255) NOT NULL ,
     `group_id` BIGINT UNSIGNED NOT NULL ,
     FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
     PRIMARY KEY (`id`))
