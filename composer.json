@@ -15,6 +15,7 @@
     "require": {
         "vlucas/phpdotenv": "^5.3",
         "robmorgan/phinx": "^0.12.8",
-        "fakerphp/faker": "^1.16"
+        "fakerphp/faker": "^1.16",
+        "bramus/router": "~1.6"
     }
 }
