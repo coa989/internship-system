@@ -1,0 +1,16 @@
+{
+    "name": "coa/internship-system",
+    "description": "Simple system for tracking internship",
+    "authors": [
+        {
+            "name": "Aleksandar Marjanovic",
+            "email": "a.marjanovic989@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "require": {}
+}
