@@ -20,11 +20,11 @@ class Validator
             $value = $this->data[$attribute];
             foreach ($rules as $rule) {
                 $ruleName = $rule;
-                if (!is_string($rule)) {
-                    $ruleName = $rule[0];
-                }
                 if ($ruleName === 'required' && !$value) {
                     $this->errors[] = "$attribute field is required";
+                }
+                if ($ruleName === 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    $this->errors[] = "$attribute must be valid email";
                 }
             }
         }

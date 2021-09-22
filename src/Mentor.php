@@ -11,7 +11,7 @@ class Mentor
     private array $rules = [
         'first_name' => ['required'],
         'last_name' => ['required'],
-        'email' => ['required'],
+        'email' => ['required', 'email'],
         'group_id' => ['required'],
     ];
 
@@ -19,7 +19,6 @@ class Mentor
     {
         $this->db = new Database();
         $this->validate = new Validator($this->rules, $this->getBody());
-
     }
 
     public function index()
@@ -74,18 +73,24 @@ class Mentor
 
     public function update($id)
     {
-        // todo validate data
-        $statement = $this->db->pdo->prepare("UPDATE mentors SET first_name=:first_name, last_name=:last_name, email=:email, group_id=:group_id WHERE id=:id");
-        $statement->bindValue(':id', $id);
-        $statement->bindValue(':first_name', $_POST['first_name']);
-        $statement->bindValue(':last_name', $_POST['last_name']);
-        $statement->bindValue(':email', $_POST['email']);
-        $statement->bindValue(':group_id', $_POST['group_id']);
-        $statement->execute();
+        if ($this->validate->handle()) {
+            $statement = $this->db->pdo->prepare("UPDATE mentors SET first_name=:first_name, last_name=:last_name, email=:email, group_id=:group_id WHERE id=:id");
+            $statement->bindValue(':id', $id);
+            $statement->bindValue(':first_name', $_POST['first_name']);
+            $statement->bindValue(':last_name', $_POST['last_name']);
+            $statement->bindValue(':email', $_POST['email']);
+            $statement->bindValue(':group_id', $_POST['group_id']);
+            $statement->execute();
 
-        http_response_code(200);
+            http_response_code(200);
 
-        echo 'Success';
+            echo 'Success';
+        }
+
+        foreach ($this->validate->errors as $error) {
+            http_response_code(400);
+            echo $error . "\n";
+        }
     }
 
     public function destroy($id)
