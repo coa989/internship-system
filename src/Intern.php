@@ -23,30 +23,19 @@ class Intern extends Model
 
     public function index()
     {
-        echo json_encode(parent::getAll());
+        echo json_encode(parent::index());
     }
 
     public function show($id)
     {
-        $statement = $this->db->pdo->prepare(
-            "SELECT first_name, last_name, email, created_at, updated_at, 
-            `groups`.name as group_name
-            FROM interns 
-            LEFT JOIN `groups`  
-            on interns.group_id = `groups`.id
-            WHERE interns.id = :id"
-        );
-        $statement->bindValue(':id', $id);
-        $statement->execute();
-        $result = $statement->fetch(\PDO::FETCH_OBJ);
-
-        if (!$result) {
+        $intern = parent::show($id);
+        if (!$intern) {
             http_response_code(404);
-            echo 'Not Found!';
-            die();
+            echo 'Not Found';
+            exit();
         }
 
-        echo json_encode($result);
+        echo json_encode($intern);
     }
 
     public function store()
@@ -93,12 +82,15 @@ class Intern extends Model
 
     public function destroy($id)
     {
-        $statement = $this->db->pdo->prepare("DELETE FROM interns WHERE id=:id");
-        $statement->bindValue(':id', $id);
-        $statement->execute();
+        $intern = parent::show($id);
+        if (!$intern) {
+            http_response_code(404);
+            echo 'Not Found';
+            exit();
+        }
 
+        parent::destroy($id);
         http_response_code(200);
-
         echo 'Success';
     }
 
