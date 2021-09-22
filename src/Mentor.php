@@ -4,7 +4,7 @@ namespace app\src;
 
 use app\db\Database;
 
-class Mentor
+class Mentor extends Model
 {
     private Database $db;
     private Validator $validate;
@@ -23,9 +23,7 @@ class Mentor
 
     public function index()
     {
-        $statement = $this->db->pdo->prepare("SELECT * FROM mentors ORDER BY created_at DESC ");
-        $statement->execute();
-        echo json_encode($statement->fetchAll(\PDO::FETCH_OBJ));
+        echo json_encode(parent::getAll());
     }
 
     public function show($id)
@@ -112,5 +110,10 @@ class Mentor
         }
 
         return $body;
+    }
+
+    public function tableName(): string
+    {
+        return 'mentors';
     }
 }
