@@ -1,17 +1,21 @@
 <?php
+
+use app\src\Mentor;
+
 require_once __DIR__. '/vendor/autoload.php';
+
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $router = new Bramus\Router\Router();
 
-$router->get('/mentors', function() {
-    echo 'All Mentors';
+$router->get('/api/mentors', function() {
+    echo (new Mentor())->index();
 });
 
-$router->get('/mentors/(\d+)', function($param) {
-    echo 'Single Mentor ', htmlentities($param);
+$router->get('/api/mentors/(\d+)', function($id) {
+    echo (new Mentor())->show($id);
 });
 
 $router->run();
