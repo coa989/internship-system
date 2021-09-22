@@ -21,6 +21,7 @@ class InternSeeder extends AbstractSeed
             $data[] = [
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
+                'email' => $faker->email,
                 'group_id' => $faker->numberBetween(1, 5)
             ];
         }
