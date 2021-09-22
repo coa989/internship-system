@@ -23,7 +23,14 @@ class Mentor
 
     public function show($id)
     {
-        $statement = $this->db->pdo->prepare("SELECT * FROM mentors WHERE id=:id");
+        $statement = $this->db->pdo->prepare(
+"SELECT first_name, last_name, email, created_at, updated_at, 
+            `groups`.name as group_name
+            FROM mentors 
+            LEFT JOIN `groups`  
+            on mentors.group_id = `groups`.id
+            WHERE mentors.id = :id"
+        );
         $statement->bindValue(':id', $id);
         $statement->execute();
         $result = $statement->fetch(\PDO::FETCH_OBJ);
