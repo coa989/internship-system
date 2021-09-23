@@ -28,21 +28,38 @@ abstract class Model
         return $statement->fetchAll(\PDO::FETCH_OBJ);
     }
 
-    public function find($id)
+    public function findOne($id)
     {
         $tableName = $this->tableName();
-        $statement = $this->prepare(
-            "SELECT $tableName.first_name, $tableName.last_name, $tableName.email, 
+        if ($tableName === 'groups') {
+            $statement = $this->prepare("SELECT * FROM `groups` WHERE id=:id");
+        } else {
+            $statement = $this->prepare(
+                "SELECT $tableName.first_name, $tableName.last_name, $tableName.email,
             $tableName.created_at, $tableName.updated_at, `groups`.name as group_name
-            FROM $tableName 
-            LEFT JOIN `groups` 
-            ON $tableName.group_id=`groups`.id 
+            FROM $tableName
+            LEFT JOIN `groups`
+            ON $tableName.group_id=`groups`.id
             WHERE $tableName.id=:id
         ");
+        }
         $statement->bindValue(':id', $id);
         $statement->execute();
 
         return $statement->fetch(\PDO::FETCH_OBJ);
+    }
+
+    public function find(string $table, array $where)
+    {
+        $attributes = array_keys($where);
+        $sql = implode(" AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+        $statement = $this->prepare("SELECT * FROM $table WHERE $sql");
+        foreach ($where as $key => $value) {
+            $statement->bindValue(":$key", $value);
+        }
+        $statement->execute();
+
+        return $statement->fetchAll(\PDO::FETCH_OBJ);
     }
 
     public function save()
