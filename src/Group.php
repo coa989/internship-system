@@ -6,23 +6,16 @@ use app\db\Database;
 
 class Group extends Model
 {
-    private Database $db;
+    private Validator $validate;
+    private array $rules = [
+        'name' => ['required']
+    ];
+    public string $name = '';
 
     public function __construct()
     {
-        $this->db = new Database();
+        $this->validate = new Validator($this->rules, $this->getBody());
     }
-
-//    public function index()
-//    {
-//        $statement = $this->db->pdo->prepare(
-//            "SELECT * FROM `groups` ORDER BY created_at DESC");
-//        $statement->execute();
-//        $result = $statement->fetchAll(\PDO::FETCH_OBJ);
-//
-//        http_response_code(200);
-//        echo json_encode($result);
-//    }
 
     public function show($id)
     {
@@ -37,6 +30,34 @@ class Group extends Model
         echo json_encode([$group, 'interns' => $interns, 'mentors' => $mentors]);
     }
 
+    public function store()
+    {
+        if ($this->validate->handle()) {
+            parent::loadData($this->getBody());
+            if (parent::save()) {
+                http_response_code(201);
+                echo 'Success';
+            }
+        }
+        foreach ($this->validate->errors as $error) {
+            http_response_code(400);
+            echo $error . "\n";
+        }
+    }
+
+    private function getBody()
+    {
+        $body = [];
+
+        if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+            foreach ($_POST as $key => $value) {
+                $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+            }
+        }
+
+        return $body;
+    }
+
     public function tableName(): string
     {
         return 'groups';
@@ -44,6 +65,6 @@ class Group extends Model
 
     public function attributes(): array
     {
-        //
+        return ['name'];
     }
 }
