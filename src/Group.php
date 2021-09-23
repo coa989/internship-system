@@ -45,6 +45,22 @@ class Group extends Model
         }
     }
 
+    public function update($id)
+    {
+        if ($this->validate->handle()) {
+            parent::loadData($this->getBody());
+            if (parent::update($id)) {
+                http_response_code(200);
+                echo 'Success';
+            }
+        }
+
+        foreach ($this->validate->errors as $error) {
+            http_response_code(400);
+            echo $error . "\n";
+        }
+    }
+
     private function getBody()
     {
         $body = [];

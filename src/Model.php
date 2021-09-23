@@ -67,7 +67,7 @@ abstract class Model
         $tableName = $this->tableName();
         $attributes = $this->attributes();
         $params = array_map(fn($attr) => ":$attr", $attributes);
-        $statement = self::prepare("INSERT INTO $tableName (".implode(',', $attributes).")
+        $statement = $this->prepare("INSERT INTO `$tableName` (".implode(',', $attributes).")
         VALUES (".implode(',', $params).")");
         foreach ($attributes as $attribute) {
             $statement->bindValue(":$attribute", $this->{$attribute});
@@ -82,7 +82,7 @@ abstract class Model
         $tableName = $this->tableName();
         $attributes = $this->attributes();
         $params = array_map(fn($attr) => "$attr = :$attr", $attributes);
-        $statement = self::prepare("UPDATE $tableName SET ".implode(',', $params)." WHERE id=:id");
+        $statement = $this->prepare("UPDATE `$tableName` SET ".implode(',', $params)." WHERE id=:id");
         $statement->bindValue(':id', $id);
         foreach ($attributes as $attribute) {
             $statement->bindValue(":$attribute", $this->{$attribute});
@@ -95,15 +95,16 @@ abstract class Model
     public function destroy($id)
     {
         $tableName = $this->tableName();
-        $statement = $this->prepare("DELETE FROM $tableName WHERE id=:id");
+        $statement = $this->prepare("DELETE FROM `$tableName` WHERE id=:id");
         $statement->bindValue(':id', $id);
         $statement->execute();
 
         return true;
     }
 
-    public function prepare($statement)
+    public function prepare($sql)
     {
-        return (new Database())->pdo->prepare($statement);
+        return (new Database())->pdo->prepare($sql);
     }
+
 }

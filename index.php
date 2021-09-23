@@ -27,5 +27,6 @@ $router->delete('/api/interns/(\d+)/destroy', 'Intern@destroy');
 $router->get('/api/groups', 'Group@index');
 $router->get('/api/groups/(\d+)', 'Group@show');
 $router->post('/api/groups', 'Group@store');
+$router->post('/api/groups/(\d+)/update', 'Group@update');
 
 $router->run();
