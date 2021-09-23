@@ -19,7 +19,7 @@ abstract class Model
         }
     }
 
-    public function index()
+    public function getAll()
     {
         $tableName = $this->tableName();
         $statement = $this->prepare("SELECT * FROM $tableName ORDER BY created_at DESC");
@@ -52,6 +52,21 @@ abstract class Model
         $params = array_map(fn($attr) => ":$attr", $attributes);
         $statement = self::prepare("INSERT INTO $tableName (".implode(',', $attributes).")
         VALUES (".implode(',', $params).")");
+        foreach ($attributes as $attribute) {
+            $statement->bindValue(":$attribute", $this->{$attribute});
+        }
+        $statement->execute();
+
+        return true;
+    }
+
+    public function update($id)
+    {
+        $tableName = $this->tableName();
+        $attributes = $this->attributes();
+        $params = array_map(fn($attr) => "$attr = :$attr", $attributes);
+        $statement = self::prepare("UPDATE $tableName SET ".implode(',', $params)." WHERE id=:id");
+        $statement->bindValue(':id', $id);
         foreach ($attributes as $attribute) {
             $statement->bindValue(":$attribute", $this->{$attribute});
         }
