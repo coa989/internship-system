@@ -2,10 +2,9 @@
 
 namespace app\src;
 
-use app\db\Database;
-
 class Intern extends Model
 {
+    private Request $request;
     private Validator $validate;
     private array $rules = [
         'first_name' => ['required'],
@@ -20,7 +19,8 @@ class Intern extends Model
 
     public function __construct()
     {
-        $this->validate = new Validator($this->rules, $this->getBody());
+        $this->request = new Request();
+        $this->validate = new Validator($this->rules, $this->request->getBody());
     }
 
     public function index()
@@ -43,10 +43,11 @@ class Intern extends Model
     public function store()
     {
         if ($this->validate->handle()) {
-            parent::loadData($this->getBody());
+            parent::loadData($this->request->getBody());
             if (parent::save()) {
                 http_response_code(201);
                 echo 'Success';
+                exit();
             }
         }
 
@@ -59,10 +60,11 @@ class Intern extends Model
     public function update($id)
     {
         if ($this->validate->handle()) {
-            parent::loadData($this->getBody());
+            parent::loadData($this->request->getBody());
             if (parent::update($id)) {
                 http_response_code(200);
                 echo 'Success';
+                exit();
             }
         }
 
@@ -84,19 +86,6 @@ class Intern extends Model
         parent::destroy($id);
         http_response_code(200);
         echo 'Success';
-    }
-
-    private function getBody()
-    {
-        $body = [];
-
-        if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-            foreach ($_POST as $key => $value) {
-                $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
-            }
-        }
-
-        return $body;
     }
 
     public function tableName(): string
