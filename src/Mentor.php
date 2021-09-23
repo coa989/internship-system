@@ -14,6 +14,10 @@ class Mentor extends Model
         'email' => ['required', 'email'],
         'group_id' => ['required'],
     ];
+    public string $first_name = '';
+    public string $last_name = '';
+    public string $email = '';
+    public int $group_id;
 
     public function __construct()
     {
@@ -28,7 +32,7 @@ class Mentor extends Model
 
     public function show($id)
     {
-        $mentor = parent::show($id);
+        $mentor = parent::find($id);
         if (!$mentor) {
             http_response_code(404);
             echo 'Not Found';
@@ -41,15 +45,11 @@ class Mentor extends Model
     public function store()
     {
         if ($this->validate->handle()) {
-            $statement = $this->db->pdo->prepare("INSERT INTO mentors (first_name, last_name, email, group_id) VALUES (:first_name, :last_name, :email, :group_id)");
-            $statement->bindValue(':first_name', $_POST['first_name']);
-            $statement->bindValue(':last_name', $_POST['last_name']);
-            $statement->bindValue(':email', $_POST['email']);
-            $statement->bindValue(':group_id', $_POST['group_id']);
-            $statement->execute();
-
-            http_response_code(201);
-            echo 'Success';
+            parent::loadData($this->getBody());
+            if (parent::save()) {
+                http_response_code(201);
+                echo 'Success';
+            }
         }
 
         foreach ($this->validate->errors as $error) {
@@ -82,7 +82,7 @@ class Mentor extends Model
 
     public function destroy($id)
     {
-        $mentor = parent::show($id);
+        $mentor = parent::find($id);
         if (!$mentor) {
             http_response_code(404);
             echo 'Not Found';
@@ -110,5 +110,10 @@ class Mentor extends Model
     public function tableName(): string
     {
         return 'mentors';
+    }
+
+    public function attributes(): array
+    {
+        return ['first_name', 'last_name', 'email', 'group_id'];
     }
 }
