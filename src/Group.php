@@ -4,40 +4,30 @@ namespace app\src;
 
 use app\db\Database;
 
-class Intern extends Model
+class Group extends Model
 {
     private Validator $validate;
     private array $rules = [
-        'first_name' => ['required'],
-        'last_name' => ['required'],
-        'email' => ['required', 'email'],
-        'group_id' => ['required'],
+        'name' => ['required']
     ];
-    public string $first_name = '';
-    public string $last_name = '';
-    public string $email = '';
-    public int $group_id;
+    public string $name = '';
 
     public function __construct()
     {
         $this->validate = new Validator($this->rules, $this->getBody());
     }
 
-    public function index()
-    {
-        echo json_encode(parent::getAll());
-    }
-
     public function show($id)
     {
-        $intern = parent::findOne($id);
-        if (!$intern) {
+        $group = parent::findOne($id);
+        if (!$group) {
             http_response_code(404);
-            echo 'Not Found';
+            echo 'Not Found!';
             exit();
         }
-
-        echo json_encode($intern);
+        $interns = parent::find('interns', ['group_id' => $id]);
+        $mentors = parent::find('mentors', ['group_id' => $id]);
+        echo json_encode([$group, 'interns' => $interns, 'mentors' => $mentors]);
     }
 
     public function store()
@@ -49,7 +39,6 @@ class Intern extends Model
                 echo 'Success';
             }
         }
-
         foreach ($this->validate->errors as $error) {
             http_response_code(400);
             echo $error . "\n";
@@ -101,11 +90,11 @@ class Intern extends Model
 
     public function tableName(): string
     {
-        return 'interns';
+        return 'groups';
     }
 
     public function attributes(): array
     {
-        return ['first_name', 'last_name', 'email', 'group_id'];
+        return ['name'];
     }
 }
