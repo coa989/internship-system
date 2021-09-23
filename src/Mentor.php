@@ -6,7 +6,6 @@ use app\db\Database;
 
 class Mentor extends Model
 {
-    private Database $db;
     private Validator $validate;
     private array $rules = [
         'first_name' => ['required'],
@@ -21,7 +20,6 @@ class Mentor extends Model
 
     public function __construct()
     {
-        $this->db = new Database();
         $this->validate = new Validator($this->rules, $this->getBody());
     }
 
@@ -32,7 +30,7 @@ class Mentor extends Model
 
     public function show($id)
     {
-        $mentor = parent::find($id);
+        $mentor = parent::findOne($id);
         if (!$mentor) {
             http_response_code(404);
             echo 'Not Found';
