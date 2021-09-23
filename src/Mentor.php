@@ -74,7 +74,7 @@ class Mentor extends Model
 
     public function destroy($id)
     {
-        $mentor = parent::find($id);
+        $mentor = parent::findOne($id);
         if (!$mentor) {
             http_response_code(404);
             echo 'Not Found';

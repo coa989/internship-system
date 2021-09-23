@@ -61,6 +61,20 @@ class Group extends Model
         }
     }
 
+    public function destroy($id)
+    {
+        $intern = parent::findOne($id);
+        if (!$intern) {
+            http_response_code(404);
+            echo 'Not Found';
+            exit();
+        }
+
+        parent::destroy($id);
+        http_response_code(200);
+        echo 'Success';
+    }
+
     private function getBody()
     {
         $body = [];

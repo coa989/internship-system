@@ -74,7 +74,7 @@ class Intern extends Model
 
     public function destroy($id)
     {
-        $intern = parent::find($id);
+        $intern = parent::findOne($id);
         if (!$intern) {
             http_response_code(404);
             echo 'Not Found';

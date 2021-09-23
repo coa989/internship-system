@@ -28,5 +28,6 @@ $router->get('/api/groups', 'Group@index');
 $router->get('/api/groups/(\d+)', 'Group@show');
 $router->post('/api/groups', 'Group@store');
 $router->post('/api/groups/(\d+)/update', 'Group@update');
+$router->delete('/api/groups/(\d+)/destroy', 'Group@destroy');
 
 $router->run();
