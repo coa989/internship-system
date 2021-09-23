@@ -3,6 +3,8 @@ CREATE DATABASE internship_system;
 CREATE TABLE `internship_system`.`groups` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
     `name` VARCHAR(255) NOT NULL ,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`))
     ENGINE = InnoDB;
 
