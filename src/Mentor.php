@@ -27,7 +27,7 @@ class Mentor extends Model
 
     public function index()
     {
-        echo json_encode(parent::index());
+        echo json_encode(parent::getAll());
     }
 
     public function show($id)
@@ -61,17 +61,11 @@ class Mentor extends Model
     public function update($id)
     {
         if ($this->validate->handle()) {
-            $statement = $this->db->pdo->prepare("UPDATE mentors SET first_name=:first_name, last_name=:last_name, email=:email, group_id=:group_id WHERE id=:id");
-            $statement->bindValue(':id', $id);
-            $statement->bindValue(':first_name', $_POST['first_name']);
-            $statement->bindValue(':last_name', $_POST['last_name']);
-            $statement->bindValue(':email', $_POST['email']);
-            $statement->bindValue(':group_id', $_POST['group_id']);
-            $statement->execute();
-
-            http_response_code(200);
-
-            echo 'Success';
+            parent::loadData($this->getBody());
+            if (parent::update($id)) {
+                http_response_code(200);
+                echo 'Success';
+            }
         }
 
         foreach ($this->validate->errors as $error) {
