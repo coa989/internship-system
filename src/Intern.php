@@ -97,4 +97,9 @@ class Intern extends Model
     {
         return ['first_name', 'last_name', 'email', 'group_id'];
     }
+
+    public function rules(): array
+    {
+        // TODO: Implement rules() method.
+    }
 }
