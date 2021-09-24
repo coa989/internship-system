@@ -20,18 +20,6 @@ class Mentor extends Model
         echo json_encode($this->getAll());
     }
 
-    public function show($id)
-    {
-        $mentor = $this->findOne($id);
-        if (!$mentor) {
-            http_response_code(404);
-            echo 'Not Found';
-            exit();
-        }
-
-        echo json_encode($mentor);
-    }
-
     public function store()
     {
         $this->loadData($this->request->getBody());

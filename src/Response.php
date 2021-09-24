@@ -11,9 +11,9 @@ class Response
         header("Cache-Control: no-transform,public,max-age=300,s-maxage=900");
         header('Content-Type: application/json');
 
-        echo json_encode(array(
+        echo json_encode([
             'message' => $message,
             'data' => $data
-        ));
+        ]);
     }
 }
