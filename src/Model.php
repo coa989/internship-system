@@ -6,9 +6,13 @@ use app\db\Database;
 
 abstract class Model
 {
+    protected array $errors;
+
     abstract public function tableName(): string ;
 
     abstract public function attributes(): array ;
+
+    abstract public function rules(): array;
 
     public function loadData($data)
     {
@@ -53,7 +57,7 @@ abstract class Model
     {
         $attributes = array_keys($where);
         $sql = implode(" AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
-        $statement = $this->prepare("SELECT * FROM $table WHERE $sql");
+        $statement = $this->prepare("SELECT * FROM `$table` WHERE $sql");
         foreach ($where as $key => $value) {
             $statement->bindValue(":$key", $value);
         }
@@ -100,6 +104,26 @@ abstract class Model
         $statement->execute();
 
         return true;
+    }
+
+    public function validate()
+    {
+        foreach ($this->rules() as $attribute => $rules) {
+            $value = $this->{$attribute};
+            foreach ($rules as $rule) {
+                $ruleName = $rule;
+                if ($ruleName === 'required' && !$value) {
+                    $this->errors[] = "$attribute field is required";
+                }
+                if ($ruleName === 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    $this->errors[] = "$attribute must be valid email";
+                }
+                if ($ruleName === 'exists' && !$this->find('groups', ['id' => $value])) {
+                    $this->errors[] = "group not found";
+                }
+            }
+        }
+        return empty($this->errors);
     }
 
     public function prepare($sql)

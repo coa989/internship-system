@@ -30,6 +30,7 @@ $router->post('/api/groups', 'Group@store');
 $router->post('/api/groups/(\d+)/update', 'Group@update');
 $router->delete('/api/groups/(\d+)/destroy', 'Group@destroy');
 
+// Not Found Route Handler
 $router->set404(function () {
     header('HTTP/1.1 404 Not Found');
     echo "Requested URL Not Found!";

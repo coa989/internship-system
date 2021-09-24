@@ -5,32 +5,24 @@ namespace app\src;
 class Intern extends Model
 {
     private Request $request;
-    private Validator $validate;
-    private array $rules = [
-        'first_name' => ['required'],
-        'last_name' => ['required'],
-        'email' => ['required', 'email'],
-        'group_id' => ['required'],
-    ];
     public string $first_name = '';
     public string $last_name = '';
     public string $email = '';
-    public int $group_id;
+    public string $group_id = '';
 
     public function __construct()
     {
         $this->request = new Request();
-        $this->validate = new Validator($this->rules, $this->request->getBody());
     }
 
     public function index()
     {
-        echo json_encode(parent::getAll());
+        echo json_encode($this->getAll());
     }
 
     public function show($id)
     {
-        $intern = parent::findOne($id);
+        $intern = $this->findOne($id);
         if (!$intern) {
             http_response_code(404);
             echo 'Not Found';
@@ -42,16 +34,16 @@ class Intern extends Model
 
     public function store()
     {
-        if ($this->validate->handle()) {
-            parent::loadData($this->request->getBody());
-            if (parent::save()) {
+        $this->loadData($this->request->getBody());
+        if ($this->validate()) {
+            if ($this->save()) {
                 http_response_code(201);
                 echo 'Success';
                 exit();
             }
         }
 
-        foreach ($this->validate->errors as $error) {
+        foreach ($this->errors as $error) {
             http_response_code(400);
             echo $error . "\n";
         }
@@ -59,8 +51,15 @@ class Intern extends Model
 
     public function update($id)
     {
-        if ($this->validate->handle()) {
-            parent::loadData($this->request->getBody());
+        $intern = $this->findOne($id);
+        if (!$intern) {
+            http_response_code(404);
+            echo 'Not Found';
+            exit();
+        }
+
+        $this->loadData($this->request->getBody());
+        if ($this->validate()) {
             if (parent::update($id)) {
                 http_response_code(200);
                 echo 'Success';
@@ -68,7 +67,7 @@ class Intern extends Model
             }
         }
 
-        foreach ($this->validate->errors as $error) {
+        foreach ($this->errors as $error) {
             http_response_code(400);
             echo $error . "\n";
         }
@@ -76,7 +75,7 @@ class Intern extends Model
 
     public function destroy($id)
     {
-        $intern = parent::findOne($id);
+        $intern = $this->findOne($id);
         if (!$intern) {
             http_response_code(404);
             echo 'Not Found';
@@ -96,5 +95,15 @@ class Intern extends Model
     public function attributes(): array
     {
         return ['first_name', 'last_name', 'email', 'group_id'];
+    }
+
+    public function rules(): array
+    {
+        return [
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'email' => ['required', 'email'],
+            'group_id' => ['required', 'exists'],
+        ];
     }
 }
