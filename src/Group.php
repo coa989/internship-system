@@ -43,8 +43,8 @@ class Group extends Model
 
     public function update($id)
     {
-        $intern = $this->findOne($id);
-        if (!$intern) {
+        $group = $this->findOne($id);
+        if (!$group) {
             http_response_code(404);
             echo 'Not Found';
             exit();
@@ -67,8 +67,8 @@ class Group extends Model
 
     public function destroy($id)
     {
-        $intern = $this->findOne($id);
-        if (!$intern) {
+        $group = $this->findOne($id);
+        if (!$group) {
             http_response_code(404);
             echo 'Not Found';
             exit();
