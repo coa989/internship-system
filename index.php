@@ -12,9 +12,9 @@ $router->setNamespace('\app\src');
 // Mentor Routes
 $router->get('/api/mentors', 'Mentor@index');
 $router->get('/api/mentors/(\d+)', 'MentorController@show');
-$router->post('/api/mentors', 'Mentor@store');
-$router->post('/api/mentors/(\d+)/update', 'Mentor@update');
-$router->delete('/api/mentors/(\d+)/destroy', 'Mentor@destroy');
+$router->post('/api/mentors', 'MentorController@store');
+$router->post('/api/mentors/(\d+)/update', 'MentorController@update');
+$router->delete('/api/mentors/(\d+)/destroy', 'MentorController@destroy');
 
 // Intern Routes
 $router->get('/api/interns', 'Intern@index');

@@ -6,7 +6,7 @@ use app\db\Database;
 
 abstract class Model
 {
-    protected array $errors;
+    public array $errors;
 
     abstract public function tableName(): string ;
 
