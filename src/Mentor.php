@@ -103,7 +103,7 @@ class Mentor extends Model
             'first_name' => ['required'],
             'last_name' => ['required'],
             'email' => ['required', 'email'],
-            'group_id' => ['required'],
+            'group_id' => ['required', 'exists'],
         ];
     }
 }

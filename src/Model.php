@@ -57,7 +57,7 @@ abstract class Model
     {
         $attributes = array_keys($where);
         $sql = implode(" AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
-        $statement = $this->prepare("SELECT * FROM $table WHERE $sql");
+        $statement = $this->prepare("SELECT * FROM `$table` WHERE $sql");
         foreach ($where as $key => $value) {
             $statement->bindValue(":$key", $value);
         }
@@ -117,6 +117,9 @@ abstract class Model
                 }
                 if ($ruleName === 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
                     $this->errors[] = "$attribute must be valid email";
+                }
+                if ($ruleName === 'exists' && !$this->find('groups', ['id' => $value])) {
+                    $this->errors[] = "group not found";
                 }
             }
         }

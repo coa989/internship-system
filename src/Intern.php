@@ -5,7 +5,6 @@ namespace app\src;
 class Intern extends Model
 {
     private Request $request;
-    private Validator $validate;
     public string $first_name = '';
     public string $last_name = '';
     public string $email = '';
@@ -104,7 +103,7 @@ class Intern extends Model
             'first_name' => ['required'],
             'last_name' => ['required'],
             'email' => ['required', 'email'],
-            'group_id' => ['required'],
+            'group_id' => ['required', 'exists'],
         ];
     }
 }
