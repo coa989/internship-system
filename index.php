@@ -18,10 +18,10 @@ $router->delete('/api/mentors/(\d+)/destroy', 'MentorController@destroy');
 
 // Intern Routes
 $router->get('/api/interns', 'Intern@index');
-$router->get('/api/interns/(\d+)', 'Intern@show');
-$router->post('/api/interns', 'Intern@store');
-$router->post('/api/interns/(\d+)/update', 'Intern@update');
-$router->delete('/api/interns/(\d+)/destroy', 'Intern@destroy');
+$router->get('/api/interns/(\d+)', 'InternController@show');
+$router->post('/api/interns', 'InternController@store');
+$router->post('/api/interns/(\d+)/update', 'InternController@update');
+$router->delete('/api/interns/(\d+)/destroy', 'InternController@destroy');
 
 // Group Routes
 $router->get('/api/groups', 'Group@index');
