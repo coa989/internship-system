@@ -7,7 +7,7 @@ $dotenv->load();
 
 $router = new Bramus\Router\Router();
 
-$router->setNamespace('\app\src');
+$router->setNamespace('\app\controllers');
 
 // Mentor Routes
 $router->get('/api/mentors', 'Mentor@index');
@@ -24,11 +24,11 @@ $router->post('/api/interns/(\d+)/update', 'InternController@update');
 $router->delete('/api/interns/(\d+)/destroy', 'InternController@destroy');
 
 // Group Routes
-$router->get('/api/groups', 'Group@index');
-$router->get('/api/groups/(\d+)', 'Group@show');
-$router->post('/api/groups', 'Group@store');
-$router->post('/api/groups/(\d+)/update', 'Group@update');
-$router->delete('/api/groups/(\d+)/destroy', 'Group@destroy');
+$router->get('/api/groups', 'GroupController@index');
+$router->get('/api/groups/(\d+)', 'GroupController@show');
+$router->post('/api/groups', 'GroupController@store');
+$router->post('/api/groups/(\d+)/update', 'GroupController@update');
+$router->delete('/api/groups/(\d+)/destroy', 'GroupController@destroy');
 
 // Not Found Route Handler
 $router->set404(function () {

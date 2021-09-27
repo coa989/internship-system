@@ -1,8 +1,10 @@
 <?php
 
+namespace app\controllers;
 
-namespace app\src;
-
+use app\src\Intern;
+use app\src\Request;
+use app\src\Response;
 
 class InternController
 {
@@ -32,7 +34,9 @@ class InternController
         if ($this->intern->validate() && $this->intern->save()) {
             return $this->response->json(201, 'Successfully Created');
         }
-        return $this->response->json(400, 'Validation Failed', ['errors' => $this->intern->errors]);
+        return $this->response->json(400,
+            'Validation Failed',
+            ['errors' => $this->intern->errors]);
     }
 
     public function update($id)
@@ -45,7 +49,9 @@ class InternController
         if ($this->intern->validate() && $this->intern->update($id)) {
             return $this->response->json(201, 'Successfully Updated');
         }
-        return $this->response->json(400, 'Validation Failed', ['errors' => $this->intern->errors]);
+        return $this->response->json(400,
+            'Validation Failed',
+            ['errors' => $this->intern->errors]);
     }
 
     public function destroy($id)

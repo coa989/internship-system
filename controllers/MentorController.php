@@ -1,6 +1,10 @@
 <?php
 
-namespace app\src;
+namespace app\controllers;
+
+use app\src\Mentor;
+use app\src\Request;
+use app\src\Response;
 
 class MentorController
 {
@@ -30,7 +34,9 @@ class MentorController
         if ($this->mentor->validate() && $this->mentor->save()) {
             return $this->response->json(201, 'Successfully Created');
         }
-        return $this->response->json(400, 'Validation Failed', ['errors' => $this->mentor->errors]);
+        return $this->response->json(400,
+            'Validation Failed',
+            ['errors' => $this->mentor->errors]);
     }
 
     public function update($id)
@@ -43,7 +49,9 @@ class MentorController
         if ($this->mentor->validate() && $this->mentor->update($id)) {
             return $this->response->json(201, 'Successfully Updated');
         }
-        return $this->response->json(400, 'Validation Failed', ['errors' => $this->mentor->errors]);
+        return $this->response->json(400,
+            'Validation Failed',
+            ['errors' => $this->mentor->errors]);
     }
 
     public function destroy($id)
