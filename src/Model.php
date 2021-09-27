@@ -4,7 +4,7 @@ namespace app\src;
 
 use app\db\Database;
 
-abstract class Model
+abstract class Model extends Database
 {
     public array $errors;
 
@@ -125,10 +125,4 @@ abstract class Model
         }
         return empty($this->errors);
     }
-
-    public function prepare($sql)
-    {
-        return (new Database())->pdo->prepare($sql);
-    }
-
 }
