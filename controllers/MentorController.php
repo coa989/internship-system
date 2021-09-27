@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\src\Mentor;
+use app\models\Mentor;
 use app\src\Request;
 use app\src\Response;
 

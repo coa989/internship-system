@@ -17,7 +17,7 @@ class MentorSeeder extends AbstractSeed
     {
         $faker = Faker\Factory::create();
         $data = [];
-        for ($i = 0; $i < 2; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $data[] = [
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,

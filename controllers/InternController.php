@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\src\Intern;
+use app\models\Intern;
 use app\src\Request;
 use app\src\Response;
 

@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
-use app\src\Group;
-use app\src\Intern;
-use app\src\Mentor;
+use app\models\Group;
+use app\models\Intern;
+use app\models\Mentor;
 use app\src\Request;
 use app\src\Response;
 

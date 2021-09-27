@@ -1,6 +1,8 @@
 <?php
 
-namespace app\src;
+namespace app\models;
+
+use app\src\Model;
 
 class Mentor extends Model
 {

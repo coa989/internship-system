@@ -17,7 +17,7 @@ class InternSeeder extends AbstractSeed
     {
         $faker = Faker\Factory::create();
         $data = [];
-        for ($i = 0; $i < 25; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $data[] = [
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
