@@ -24,8 +24,8 @@ class Comment extends Model
     {
         return [
             'body' => ['required'],
-            'mentor_id' => ['required'],
-            'intern_id' => ['required']
+            'mentor_id' => ['required', 'exist'],
+            'intern_id' => ['required', 'exist']
         ];
     }
 }
