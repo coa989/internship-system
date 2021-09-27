@@ -4,7 +4,7 @@ namespace app\src;
 
 use app\db\Database;
 
-abstract class Model
+abstract class Model extends Database
 {
     public array $errors;
 
@@ -35,17 +35,17 @@ abstract class Model
     public function findOne($id)
     {
         $tableName = $this->tableName();
-        if ($tableName === 'groups') {
-            $statement = $this->prepare("SELECT * FROM `groups` WHERE id=:id");
-        } else {
+        if ($tableName === 'mentors' || $tableName === 'interns') {
             $statement = $this->prepare(
                 "SELECT $tableName.first_name, $tableName.last_name, $tableName.email,
-            $tableName.created_at, $tableName.updated_at, `groups`.name as `group`
+            $tableName.created_at, $tableName.updated_at, `groups`.name AS `group`
             FROM $tableName
             LEFT JOIN `groups`
             ON $tableName.group_id=`groups`.id
-            WHERE $tableName.id=:id
-        ");
+            WHERE $tableName.id=:id"
+            );
+        } else {
+            $statement = $this->prepare("SELECT * FROM `$tableName` WHERE id=:id");
         }
         $statement->bindValue(':id', $id);
         $statement->execute();
@@ -118,17 +118,11 @@ abstract class Model
                 if ($ruleName === 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
                     $this->errors[] = "$attribute must be valid email";
                 }
-                if ($ruleName === 'exists' && !$this->find('groups', ['id' => $value])) {
-                    $this->errors[] = "group not found";
+                if ($ruleName === 'exist' && !$this->find('groups', ['id' => $value])) {
+                    $this->errors[] = "group doesn't exist";
                 }
             }
         }
         return empty($this->errors);
     }
-
-    public function prepare($sql)
-    {
-        return (new Database())->pdo->prepare($sql);
-    }
-
 }
