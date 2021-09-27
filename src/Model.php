@@ -6,7 +6,7 @@ use app\db\Database;
 
 abstract class Model
 {
-    protected array $errors;
+    public array $errors;
 
     abstract public function tableName(): string ;
 
@@ -23,10 +23,10 @@ abstract class Model
         }
     }
 
-    public function getAll()
+    public function getAll($orderBy = 'created_at', $limit = 25)
     {
         $tableName = $this->tableName();
-        $statement = $this->prepare("SELECT * FROM $tableName ORDER BY created_at DESC");
+        $statement = $this->prepare("SELECT * FROM `$tableName` ORDER BY $orderBy DESC LIMIT $limit");
         $statement->execute();
 
         return $statement->fetchAll(\PDO::FETCH_OBJ);
@@ -40,7 +40,7 @@ abstract class Model
         } else {
             $statement = $this->prepare(
                 "SELECT $tableName.first_name, $tableName.last_name, $tableName.email,
-            $tableName.created_at, $tableName.updated_at, `groups`.name as group_name
+            $tableName.created_at, $tableName.updated_at, `groups`.name as `group`
             FROM $tableName
             LEFT JOIN `groups`
             ON $tableName.group_id=`groups`.id
