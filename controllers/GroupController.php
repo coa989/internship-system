@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\src\Group;
+use app\src\Intern;
+use app\src\Mentor;
 use app\src\Request;
 use app\src\Response;
 
@@ -17,6 +19,18 @@ class GroupController
         $this->group = new Group();
         $this->request = new Request();
         $this->response = new Response();
+    }
+
+    public function index()
+    {
+        $groups = $this->group->getAll('name', 3);
+        $mentors = (new Mentor())->getAll('first_name', 10);
+        $interns = (new Intern())->getAll('first_name', 10);
+        return $this->response->json(200, 'Successfull', [
+            'groups' => $groups,
+            'mentors' => $mentors,
+            'interns' => $interns
+        ]);
     }
 
     public function show($id)

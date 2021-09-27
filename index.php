@@ -10,14 +10,12 @@ $router = new Bramus\Router\Router();
 $router->setNamespace('\app\controllers');
 
 // Mentor Routes
-$router->get('/api/mentors', 'Mentor@index');
 $router->get('/api/mentors/(\d+)', 'MentorController@show');
 $router->post('/api/mentors', 'MentorController@store');
 $router->post('/api/mentors/(\d+)/update', 'MentorController@update');
 $router->delete('/api/mentors/(\d+)/destroy', 'MentorController@destroy');
 
 // Intern Routes
-$router->get('/api/interns', 'Intern@index');
 $router->get('/api/interns/(\d+)', 'InternController@show');
 $router->post('/api/interns', 'InternController@store');
 $router->post('/api/interns/(\d+)/update', 'InternController@update');
