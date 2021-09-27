@@ -37,7 +37,7 @@ abstract class Model extends Database
         $tableName = $this->tableName();
         if ($tableName === 'mentors' || $tableName === 'interns') {
             $statement = $this->prepare(
-                "SELECT $tableName.first_name, $tableName.last_name, $tableName.email,
+                "SELECT $tableName.first_name, $tableName.last_name, $tableName.email, $tableName.group_id,
             $tableName.created_at, $tableName.updated_at, `groups`.name AS `group`
             FROM $tableName
             LEFT JOIN `groups`
