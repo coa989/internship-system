@@ -1,0 +1,23 @@
+{
+    "name": "coa/internship-system",
+    "description": "Simple system for tracking internship",
+    "authors": [
+        {
+            "name": "Aleksandar Marjanovic",
+            "email": "a.marjanovic989@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.3",
+        "robmorgan/phinx": "^0.12.8",
+        "fakerphp/faker": "^1.16",
+        "bramus/router": "~1.6",
+      "ext-json": "*",
+      "ext-pdo": "*"
+    }
+}

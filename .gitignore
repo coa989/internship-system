@@ -1,0 +1,5 @@
+.idea
+/vendor/
+.env
+todo.txt
+phinx.php
