@@ -1,6 +1,5 @@
 <?php
 
-
 use Phinx\Seed\AbstractSeed;
 
 class MentorSeeder extends AbstractSeed
@@ -31,7 +30,6 @@ class MentorSeeder extends AbstractSeed
                 'group_id' => $faker->numberBetween(1, 5)
             ];
         }
-
         $this->table('mentors')->insert($data)->saveData();
     }
 }

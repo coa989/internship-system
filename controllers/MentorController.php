@@ -18,6 +18,7 @@ class MentorController extends Controller
         if (!$mentor) {
             return $this->response->json(404, 'Not Found');
         }
+
         return $this->response->json(200, 'Successful', $mentor);
     }
 
@@ -27,9 +28,12 @@ class MentorController extends Controller
         if ($this->model->validate() && $this->model->save()) {
             return $this->response->json(201, 'Successfully Created');
         }
-        return $this->response->json(400,
+
+        return $this->response->json(
+            400,
             'Validation Failed',
-            ['errors' => $this->model->errors]);
+            ['errors' => $this->model->errors]
+        );
     }
 
     public function update($id)
@@ -38,13 +42,17 @@ class MentorController extends Controller
         if (!$mentor) {
             return $this->response->json(404, 'Not Found');
         }
+
         $this->model->loadData($this->request->getBody());
         if ($this->model->validate() && $this->model->update($id)) {
             return $this->response->json(201, 'Successfully Updated');
         }
-        return $this->response->json(400,
+
+        return $this->response->json(
+            400,
             'Validation Failed',
-            ['errors' => $this->model->errors]);
+            ['errors' => $this->model->errors]
+        );
     }
 
     public function destroy($id)
@@ -53,6 +61,7 @@ class MentorController extends Controller
         if (!$mentor) {
             return $this->response->json(404, 'Not Found');
         }
+
         if ($this->model->destroy($id)) {
             return $this->response->json(200, 'Successfully Deleted');
         }

@@ -19,9 +19,12 @@ class InternController extends Controller
         if (!$intern) {
             return $this->response->json(404, 'Not Found');
         }
-        return $this->response->json(200,
+
+        return $this->response->json(
+            200,
             'Successful',
-            [$intern, 'comments' => $comments]);
+            [$intern, 'comments' => $comments]
+        );
     }
 
     public function store()
@@ -30,9 +33,11 @@ class InternController extends Controller
         if ($this->model->validate() && $this->model->save()) {
             return $this->response->json(201, 'Successfully Created');
         }
-        return $this->response->json(400,
+        return $this->response->json(
+            400,
             'Validation Failed',
-            ['errors' => $this->model->errors]);
+            ['errors' => $this->model->errors]
+        );
     }
 
     public function update($id)
@@ -45,9 +50,11 @@ class InternController extends Controller
         if ($this->model->validate() && $this->model->update($id)) {
             return $this->response->json(201, 'Successfully Updated');
         }
-        return $this->response->json(400,
+        return $this->response->json(
+            400,
             'Validation Failed',
-            ['errors' => $this->model->errors]);
+            ['errors' => $this->model->errors]
+        );
     }
 
     public function destroy($id)

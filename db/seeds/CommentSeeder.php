@@ -1,6 +1,5 @@
 <?php
 
-
 use Phinx\Seed\AbstractSeed;
 
 class CommentSeeder extends AbstractSeed
@@ -32,7 +31,6 @@ class CommentSeeder extends AbstractSeed
                 'intern_id' => $faker->numberBetween(1, 50),
             ];
         }
-        
         $this->table('comments')->insert($data)->saveData();
     }
 }

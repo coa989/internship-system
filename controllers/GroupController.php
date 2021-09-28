@@ -48,9 +48,11 @@ class GroupController extends Controller
         if ($this->model->validate() && $this->model->save()) {
             return $this->response->json(201, 'Successfully Created');
         }
-        return $this->response->json(400,
+        return $this->response->json(
+            400,
             'Validation Failed',
-            ['errors' => $this->model->errors]);
+            ['errors' => $this->model->errors]
+        );
     }
 
     public function update($id)
@@ -63,9 +65,11 @@ class GroupController extends Controller
         if ($this->model->validate() && $this->model->update($id)) {
             return $this->response->json(201, 'Successfully Updated');
         }
-        return $this->response->json(400,
+        return $this->response->json(
+            400,
             'Validation Failed',
-            ['errors' => $this->model->errors]);
+            ['errors' => $this->model->errors]
+        );
     }
 
     public function destroy($id)

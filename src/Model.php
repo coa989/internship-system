@@ -8,9 +8,9 @@ abstract class Model extends Database
 {
     public array $errors;
 
-    abstract public function tableName(): string ;
+    abstract public function tableName(): string;
 
-    abstract public function attributes(): array ;
+    abstract public function attributes(): array;
 
     abstract public function rules(): array;
 
@@ -71,8 +71,8 @@ abstract class Model extends Database
         $tableName = $this->tableName();
         $attributes = $this->attributes();
         $params = array_map(fn($attr) => ":$attr", $attributes);
-        $statement = $this->prepare("INSERT INTO `$tableName` (".implode(',', $attributes).")
-        VALUES (".implode(',', $params).")");
+        $statement = $this->prepare("INSERT INTO `$tableName` (" . implode(',', $attributes) . ")
+        VALUES (" . implode(',', $params) . ")");
         foreach ($attributes as $attribute) {
             $statement->bindValue(":$attribute", $this->{$attribute});
         }
@@ -86,7 +86,7 @@ abstract class Model extends Database
         $tableName = $this->tableName();
         $attributes = $this->attributes();
         $params = array_map(fn($attr) => "$attr = :$attr", $attributes);
-        $statement = $this->prepare("UPDATE `$tableName` SET ".implode(',', $params)." WHERE id=:id");
+        $statement = $this->prepare("UPDATE `$tableName` SET " . implode(',', $params) . " WHERE id=:id");
         $statement->bindValue(':id', $id);
         foreach ($attributes as $attribute) {
             $statement->bindValue(":$attribute", $this->{$attribute});
@@ -122,7 +122,7 @@ abstract class Model extends Database
                 if ($ruleName === 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
                     $this->errors[] = "$attribute must be valid email";
                 }
-                if ($ruleName === 'exist' && !$this->find($table.'s', ['id' => $value])) {
+                if ($ruleName === 'exist' && !$this->find($table . 's', ['id' => $value])) {
                     $this->errors[] = "$table doesn't exist";
                 }
             }
