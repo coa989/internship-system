@@ -22,10 +22,11 @@ class InternController
     public function show($id)
     {
         $intern = $this->intern->findOne($id);
+        $comments = $this->intern->find('comments', ['intern_id' => $intern->id]);
         if (!$intern) {
             return $this->response->json(404, 'Not Found');
         }
-        return $this->response->json(200, 'Successful', $intern);
+        return $this->response->json(200, 'Successful', [$intern, 'comments' => $comments]);
     }
 
     public function store()

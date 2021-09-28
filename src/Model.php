@@ -37,7 +37,7 @@ abstract class Model extends Database
         $tableName = $this->tableName();
         if ($tableName === 'mentors' || $tableName === 'interns') {
             $statement = $this->prepare(
-                "SELECT $tableName.first_name, $tableName.last_name, $tableName.email, $tableName.group_id,
+                "SELECT $tableName.id, $tableName.first_name, $tableName.last_name, $tableName.email, 
             $tableName.created_at, $tableName.updated_at, `groups`.name AS `group`
             FROM $tableName
             LEFT JOIN `groups`
@@ -57,7 +57,7 @@ abstract class Model extends Database
     {
         $attributes = array_keys($where);
         $sql = implode(" AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
-        $statement = $this->prepare("SELECT * FROM `$table` WHERE $sql");
+        $statement = $this->prepare("SELECT * FROM `$table` WHERE $sql ORDER BY created_at DESC");
         foreach ($where as $key => $value) {
             $statement->bindValue(":$key", $value);
         }
