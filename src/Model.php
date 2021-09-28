@@ -37,7 +37,7 @@ abstract class Model extends Database
         $tableName = $this->tableName();
         if ($tableName === 'mentors' || $tableName === 'interns') {
             $statement = $this->prepare(
-                "SELECT $tableName.first_name, $tableName.last_name, $tableName.email,
+                "SELECT $tableName.id, $tableName.first_name, $tableName.last_name, $tableName.email, 
             $tableName.created_at, $tableName.updated_at, `groups`.name AS `group`
             FROM $tableName
             LEFT JOIN `groups`
@@ -57,7 +57,7 @@ abstract class Model extends Database
     {
         $attributes = array_keys($where);
         $sql = implode(" AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
-        $statement = $this->prepare("SELECT * FROM `$table` WHERE $sql");
+        $statement = $this->prepare("SELECT * FROM `$table` WHERE $sql ORDER BY created_at DESC");
         foreach ($where as $key => $value) {
             $statement->bindValue(":$key", $value);
         }
@@ -110,6 +110,10 @@ abstract class Model extends Database
     {
         foreach ($this->rules() as $attribute => $rules) {
             $value = $this->{$attribute};
+            $pos = strpos($attribute, '_');
+            if ($pos) {
+                $table = substr($attribute, 0, $pos);
+            }
             foreach ($rules as $rule) {
                 $ruleName = $rule;
                 if ($ruleName === 'required' && !$value) {
@@ -118,8 +122,8 @@ abstract class Model extends Database
                 if ($ruleName === 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
                     $this->errors[] = "$attribute must be valid email";
                 }
-                if ($ruleName === 'exist' && !$this->find('groups', ['id' => $value])) {
-                    $this->errors[] = "group doesn't exist";
+                if ($ruleName === 'exist' && !$this->find($table.'s', ['id' => $value])) {
+                    $this->errors[] = "$table doesn't exist";
                 }
             }
         }

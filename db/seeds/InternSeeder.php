@@ -5,6 +5,12 @@ use Phinx\Seed\AbstractSeed;
 
 class InternSeeder extends AbstractSeed
 {
+    public function getDependencies()
+    {
+        return [
+            'GroupSeeder',
+        ];
+    }
     /**
      * Run Method.
      *

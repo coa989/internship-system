@@ -28,6 +28,9 @@ $router->post('/api/groups', 'GroupController@store');
 $router->post('/api/groups/(\d+)/update', 'GroupController@update');
 $router->delete('/api/groups/(\d+)/destroy', 'GroupController@destroy');
 
+// Comment Routes
+$router->post('/api/comments', 'CommentController@store');
+
 // Not Found Route Handler
 $router->set404(function () {
     header('HTTP/1.1 404 Not Found');
