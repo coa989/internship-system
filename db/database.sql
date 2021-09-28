@@ -41,7 +41,9 @@ CREATE TABLE `internship_system`.`comments` (
     `intern_id` BIGINT UNSIGNED NOT NULL ,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
-    FOREIGN KEY (`mentor_id`) REFERENCES `mentors` (`id`) ,
-    FOREIGN KEY (`intern_id`) REFERENCES `interns` (`id`) ,
+    FOREIGN KEY (`mentor_id`) REFERENCES `mentors` (`id`)
+    ON DELETE CASCADE ,
+    FOREIGN KEY (`intern_id`) REFERENCES `interns` (`id`)
+    ON DELETE CASCADE ,
     PRIMARY KEY (`id`))
     ENGINE = InnoDB;
