@@ -17,9 +17,9 @@ class GroupController extends Controller
 
     public function index()
     {
-        $groups = $this->model->getAll('created_at', 3);
-        $mentors = (new Mentor())->getAll('first_name', 10);
-        $interns = (new Intern())->getAll('first_name', 10);
+        $groups = $this->model->getAll($_GET['sortBy'], $_GET['limit'], $_GET['page']);
+        $mentors = (new Mentor())->getAll($_GET['sortBy'], $_GET['limit'], $_GET['page']);
+        $interns = (new Intern())->getAll($_GET['sortBy'], $_GET['limit'], $_GET['page']);
 
         return $this->response->json(200, [
             'groups' => $groups,

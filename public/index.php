@@ -22,7 +22,7 @@ $router->put('/api/interns/(\d+)/update', 'InternController@update');
 $router->delete('/api/interns/(\d+)/destroy', 'InternController@destroy');
 
 // Group Routes
-$router->get('/api/groups', 'GroupController@index');
+$router->get('/api/groups?[a-z0-9_-]+', 'GroupController@index');
 $router->get('/api/groups/(\d+)', 'GroupController@show');
 $router->post('/api/groups', 'GroupController@store');
 $router->put('/api/groups/(\d+)/update', 'GroupController@update');
