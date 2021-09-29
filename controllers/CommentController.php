@@ -19,19 +19,15 @@ class CommentController extends Controller
         $this->model->loadData($this->request->getBody());
         $mentor = (new Mentor())->findOne($this->model->mentor_id);
         $intern = (new Intern())->findOne($this->model->intern_id);
+
         if ($mentor->group_id !== $intern->group_id) {
-            return $this->response->json(
-                403,
-                'Mentor and intern do not belong to the same group'
-            );
-        };
+            return $this->response->json(403, ['Mentor and intern do not belong to the same group']);
+        }
+
         if ($this->model->validate() && $this->model->save()) {
             return $this->response->json(201, 'Successfully Created');
         }
-        return $this->response->json(
-            400,
-            'Validation Failed',
-            ['errors' => $this->model->errors]
-        );
+
+        return $this->response->json(400, $this->model->errors);
     }
 }
