@@ -20,7 +20,8 @@ class GroupController extends Controller
         $groups = $this->model->getAll('created_at', 3);
         $mentors = (new Mentor())->getAll('first_name', 10);
         $interns = (new Intern())->getAll('first_name', 10);
-        return $this->response->json(200, 'Successfull', [
+
+        return $this->response->json(200, [
             'groups' => $groups,
             'mentors' => $mentors,
             'interns' => $interns
@@ -31,11 +32,12 @@ class GroupController extends Controller
     {
         $group = $this->model->findOne($id);
         if (!$group) {
-            return $this->response->json(404, 'Not Found');
+            return $this->response->json(404);
         }
         $interns = $this->model->find('interns', ['group_id' => $id]);
         $mentors = $this->model->find('mentors', ['group_id' => $id]);
-        return $this->response->json(200, 'Successful', [
+
+        return $this->response->json(200, [
             'group' => $group,
             'interns' => $interns,
             'mentors' => $mentors
@@ -46,40 +48,33 @@ class GroupController extends Controller
     {
         $this->model->loadData($this->request->getBody());
         if ($this->model->validate() && $this->model->save()) {
-            return $this->response->json(201, 'Successfully Created');
+            return $this->response->json(201);
         }
-        return $this->response->json(
-            400,
-            'Validation Failed',
-            ['errors' => $this->model->errors]
-        );
+
+        return $this->response->json(400, $this->model->errors);
     }
 
     public function update($id)
     {
         $group = $this->model->findOne($id);
         if (!$group) {
-            return $this->response->json(404, 'Not Found');
+            return $this->response->json(404);
         }
         $this->model->loadData($this->request->getBody());
         if ($this->model->validate() && $this->model->update($id)) {
-            return $this->response->json(201, 'Successfully Updated');
+            return $this->response->json(201);
         }
-        return $this->response->json(
-            400,
-            'Validation Failed',
-            ['errors' => $this->model->errors]
-        );
+        return $this->response->json(400, $this->model->errors);
     }
 
     public function destroy($id)
     {
         $group = $this->model->findOne($id);
         if (!$group) {
-            return $this->response->json(404, 'Not Found');
+            return $this->response->json(404);
         }
         if ($this->model->destroy($id)) {
-            return $this->response->json(200, 'Successfully Deleted');
+            return $this->response->json(200);
         }
     }
 }
