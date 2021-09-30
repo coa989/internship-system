@@ -17,16 +17,10 @@ class Response
             403 => '403 Forbidden',
             404 => '404 Not Found'
         ];
-        if ($code === 400 || $code === 403) {
-            $errors = $data;
-            $data = null;
-        }
-        $errors = null;
 
-        return json_encode([
+        echo json_encode([
             'status' => $status[$code],
             'data' => $data,
-            'errors' => $errors
         ]);
     }
 }

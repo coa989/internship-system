@@ -21,14 +21,19 @@ class CommentController extends Controller
         $intern = (new Intern())->findOne($this->model->intern_id);
 
         if (!$this->model->validate()) {
-            echo $this->response->json(400, $this->model->errors);
+            return $this->response->json(400, [
+                'errors' => $this->model->errors
+            ]);
         }
 
         if ($mentor->group_id !== $intern->group_id) {
-            echo $this->response->json(403, ['Mentor and intern do not belong to the same group']);
+            return $this->response->json(403, [
+                'errors' => 'Mentor and intern do not belong to the same group'
+            ]);
         }
 
         $this->model->save();
-        echo $this->response->json(201);
+
+        return $this->response->json(201);
     }
 }

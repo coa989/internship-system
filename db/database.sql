@@ -1,6 +1,6 @@
-CREATE DATABASE internship_system;
+CREATE DATABASE your_db_name;
 
-CREATE TABLE `internship_system`.`groups` (
+CREATE TABLE `your_db_name`.`groups` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
     `name` VARCHAR(255) NOT NULL ,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
@@ -8,33 +8,33 @@ CREATE TABLE `internship_system`.`groups` (
     PRIMARY KEY (`id`))
     ENGINE = InnoDB;
 
-CREATE TABLE `internship_system`.`mentors` (
+CREATE TABLE `your_db_name`.`mentors` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
     `first_name` VARCHAR(255) NOT NULL ,
     `last_name` VARCHAR(255) NOT NULL ,
     `email` VARCHAR(255) NOT NULL,
-    `group_id` BIGINT UNSIGNED NOT NULL ,
+    `group_id` BIGINT UNSIGNED ,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
     FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)
-    ON DELETE CASCADE ,
+    ON DELETE SET NULL ,
     PRIMARY KEY (`id`))
     ENGINE = InnoDB;
 
-CREATE TABLE `internship_system`.`interns` (
+CREATE TABLE `your_db_name`.`interns` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
     `first_name` VARCHAR(255) NOT NULL ,
     `last_name` VARCHAR(255) NOT NULL ,
     `email` VARCHAR(255) NOT NULL,
-    `group_id` BIGINT UNSIGNED NOT NULL ,
+    `group_id` BIGINT UNSIGNED ,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
     FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)
-    ON DELETE CASCADE ,
+    ON DELETE SET NULL ,
     PRIMARY KEY (`id`))
     ENGINE = InnoDB;
 
-CREATE TABLE `internship_system`.`comments` (
+CREATE TABLE `your_db_name`.`comments` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
     `body` TEXT NOT NULL ,
     `mentor_id` BIGINT UNSIGNED NOT NULL ,
