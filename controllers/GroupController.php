@@ -22,7 +22,7 @@ class GroupController extends Controller
         $mentors = (new Mentor())->getAll($input['limit'], $input['page'], $input['sort'], $input['order']);
         $interns = (new Intern())->getAll($input['limit'], $input['page'], $input['sort'], $input['order']);
 
-        return $this->response->json(200, [
+        echo $this->response->json(200, [
             'groups' => $groups,
             'mentors' => $mentors,
             'interns' => $interns
@@ -33,12 +33,13 @@ class GroupController extends Controller
     {
         $group = $this->model->findOne($id);
         if (!$group) {
-            return $this->response->json(404);
+            echo $this->response->json(404);
+            exit();
         }
         $interns = $this->model->find('interns', ['group_id' => $id]);
         $mentors = $this->model->find('mentors', ['group_id' => $id]);
 
-        return $this->response->json(200, [
+        echo $this->response->json(200, [
             'group' => $group,
             'interns' => $interns,
             'mentors' => $mentors
@@ -49,33 +50,33 @@ class GroupController extends Controller
     {
         $this->model->loadData($this->request->getBody());
         if ($this->model->validate() && $this->model->save()) {
-            return $this->response->json(201);
+            echo $this->response->json(201);
         }
 
-        return $this->response->json(400, $this->model->errors);
+        echo $this->response->json(400, $this->model->errors);
     }
 
     public function update($id)
     {
         $group = $this->model->findOne($id);
         if (!$group) {
-            return $this->response->json(404);
+            echo $this->response->json(404);
         }
         $this->model->loadData($this->request->getBody());
         if ($this->model->validate() && $this->model->update($id)) {
-            return $this->response->json(201);
+            echo $this->response->json(201);
         }
-        return $this->response->json(400, $this->model->errors);
+        echo $this->response->json(400, $this->model->errors);
     }
 
     public function destroy($id)
     {
         $group = $this->model->findOne($id);
         if (!$group) {
-            return $this->response->json(404);
+            echo $this->response->json(404);
         }
         if ($this->model->destroy($id)) {
-            return $this->response->json(200);
+            echo $this->response->json(200);
         }
     }
 }

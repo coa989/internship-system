@@ -21,7 +21,9 @@ class Response
             $errors = $data;
             $data = null;
         }
-        echo json_encode([
+        $errors = null;
+
+        return json_encode([
             'status' => $status[$code],
             'data' => $data,
             'errors' => $errors
