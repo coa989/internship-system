@@ -13,7 +13,7 @@ CREATE TABLE `your_db_name`.`mentors` (
     `first_name` VARCHAR(255) NOT NULL ,
     `last_name` VARCHAR(255) NOT NULL ,
     `email` VARCHAR(255) NOT NULL,
-    `group_id` BIGINT UNSIGNED NOT NULL ,
+    `group_id` BIGINT UNSIGNED ,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
     FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)
@@ -26,7 +26,7 @@ CREATE TABLE `your_db_name`.`interns` (
     `first_name` VARCHAR(255) NOT NULL ,
     `last_name` VARCHAR(255) NOT NULL ,
     `email` VARCHAR(255) NOT NULL,
-    `group_id` BIGINT UNSIGNED NOT NULL ,
+    `group_id` BIGINT UNSIGNED ,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
     FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)

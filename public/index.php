@@ -1,5 +1,7 @@
 <?php
 
+use app\src\Response;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
@@ -33,8 +35,7 @@ $router->post('/api/comments', 'CommentController@store');
 
 // Not Found Route Handler
 $router->set404(function () {
-    header('HTTP/1.1 404 Not Found');
-    echo "Requested URL Not Found!";
+    return (new Response())->json(404);
 });
 
 $router->run();
