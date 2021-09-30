@@ -3,65 +3,67 @@
 namespace app\controllers;
 
 use app\models\Mentor;
-use app\src\Request;
-use app\src\Response;
+use app\src\Controller;
 
-class MentorController
+class MentorController extends Controller
 {
-    public Mentor $mentor;
-    public Request $request;
-    public Response $response;
-
     public function __construct()
     {
-        $this->mentor = new Mentor();
-        $this->request = new Request();
-        $this->response = new Response();
+        parent::__construct(Mentor::class);
     }
 
     public function show($id)
     {
-        $mentor = $this->mentor->findOne($id);
+        $mentor = $this->model->findOne($id);
+        $group = $this->model->find('groups', ['id' => $mentor->group_id]);
         if (!$mentor) {
-            return $this->response->json(404, 'Not Found');
+            return $this->response->json(404);
         }
-        return $this->response->json(200, 'Successful', $mentor);
+
+        return $this->response->json(200, [
+            'attributes' => $mentor,
+            'group' =>$group
+            ]);
     }
 
     public function store()
     {
-        $this->mentor->loadData($this->request->getBody());
-        if ($this->mentor->validate() && $this->mentor->save()) {
-            return $this->response->json(201, 'Successfully Created');
+        $this->model->loadData($this->request->getBody());
+        if ($this->model->validate() && $this->model->save()) {
+            return $this->response->json(201);
         }
-        return $this->response->json(400,
-            'Validation Failed',
-            ['errors' => $this->mentor->errors]);
+
+        return $this->response->json(400, [
+            'errors' => $this->model->errors
+        ]);
     }
 
     public function update($id)
     {
-        $mentor = $this->mentor->findOne($id);
+        $mentor = $this->model->findOne($id);
         if (!$mentor) {
-            return $this->response->json(404, 'Not Found');
+            return $this->response->json(404);
         }
-        $this->mentor->loadData($this->request->getBody());
-        if ($this->mentor->validate() && $this->mentor->update($id)) {
-            return $this->response->json(201, 'Successfully Updated');
+
+        $this->model->loadData($this->request->getBody());
+        if ($this->model->validate() && $this->model->update($id)) {
+            return $this->response->json(201);
         }
-        return $this->response->json(400,
-            'Validation Failed',
-            ['errors' => $this->mentor->errors]);
+
+        return $this->response->json(400, [
+            'errors' => $this->model->errors
+        ]);
     }
 
     public function destroy($id)
     {
-        $mentor = $this->mentor->findOne($id);
+        $mentor = $this->model->findOne($id);
         if (!$mentor) {
-            return $this->response->json(404, 'Not Found');
+            return $this->response->json(404);
         }
-        if ($this->mentor->destroy($id)) {
-            return $this->response->json(200, 'Successfully Deleted');
+
+        if ($this->model->destroy($id)) {
+            return $this->response->json(200);
         }
     }
 }

@@ -3,65 +3,69 @@
 namespace app\controllers;
 
 use app\models\Intern;
-use app\src\Request;
-use app\src\Response;
+use app\src\Controller;
 
-class InternController
+class InternController extends Controller
 {
-    public Intern $intern;
-    public Request $request;
-    public Response $response;
-
     public function __construct()
     {
-        $this->intern = new Intern();
-        $this->request = new Request();
-        $this->response = new Response();
+        parent::__construct(Intern::class);
     }
 
     public function show($id)
     {
-        $intern = $this->intern->findOne($id);
+        $intern = $this->model->findOne($id);
+        $group = $this->model->find('groups', ['id' => $intern->group_id]);
+        $comments = $this->model->find('comments', ['intern_id' => $intern->id]);
+
         if (!$intern) {
-            return $this->response->json(404, 'Not Found');
+            return $this->response->json(404);
         }
-        return $this->response->json(200, 'Successful', $intern);
+
+        return $this->response->json(200, [
+            'attributes' => $intern,
+            'group' => $group,
+            'comments' => $comments
+        ]);
     }
 
     public function store()
     {
-        $this->intern->loadData($this->request->getBody());
-        if ($this->intern->validate() && $this->intern->save()) {
-            return $this->response->json(201, 'Successfully Created');
+        $this->model->loadData($this->request->getBody());
+        if ($this->model->validate() && $this->model->save()) {
+            return $this->response->json(201);
         }
-        return $this->response->json(400,
-            'Validation Failed',
-            ['errors' => $this->intern->errors]);
+
+        return $this->response->json(400, [
+            'errors' => $this->model->errors
+        ]);
     }
 
     public function update($id)
     {
-        $intern = $this->intern->findOne($id);
+        $intern = $this->model->findOne($id);
         if (!$intern) {
-            return $this->response->json(404, 'Not Found');
+            return $this->response->json(404);
         }
-        $this->intern->loadData($this->request->getBody());
-        if ($this->intern->validate() && $this->intern->update($id)) {
-            return $this->response->json(201, 'Successfully Updated');
+        $this->model->loadData($this->request->getBody());
+        if ($this->model->validate() && $this->model->update($id)) {
+            return $this->response->json(201);
         }
-        return $this->response->json(400,
-            'Validation Failed',
-            ['errors' => $this->intern->errors]);
+
+        return $this->response->json(400, [
+            'errors' => $this->model->errors
+        ]);
     }
 
     public function destroy($id)
     {
-        $intern = $this->intern->findOne($id);
+        $intern = $this->model->findOne($id);
         if (!$intern) {
-            return $this->response->json(404, 'Not Found');
+            return $this->response->json(404);
         }
-        if ($this->intern->destroy($id)) {
-            return $this->response->json(200, 'Successfully Deleted');
+
+        if ($this->model->destroy($id)) {
+            return $this->response->json(200);
         }
     }
 }

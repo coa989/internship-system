@@ -2,14 +2,16 @@
 
 use Phinx\Seed\AbstractSeed;
 
-class InternSeeder extends AbstractSeed
+class CommentSeeder extends AbstractSeed
 {
     public function getDependencies()
     {
         return [
-            'GroupSeeder',
+            'MentorSeeder',
+            'InternSeeder'
         ];
     }
+
     /**
      * Run Method.
      *
@@ -24,12 +26,11 @@ class InternSeeder extends AbstractSeed
         $data = [];
         for ($i = 0; $i < 50; $i++) {
             $data[] = [
-                'first_name' => $faker->firstName,
-                'last_name' => $faker->lastName,
-                'email' => $faker->email,
-                'group_id' => $faker->numberBetween(1, 5)
+                'body' => $faker->text(50),
+                'mentor_id' => $faker->numberBetween(1, 10),
+                'intern_id' => $faker->numberBetween(1, 50),
             ];
         }
-        $this->table('interns')->insert($data)->saveData();
+        $this->table('comments')->insert($data)->saveData();
     }
 }

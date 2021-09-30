@@ -1,6 +1,5 @@
 <?php
 
-
 use Phinx\Seed\AbstractSeed;
 
 class GroupSeeder extends AbstractSeed
@@ -22,7 +21,6 @@ class GroupSeeder extends AbstractSeed
                 'name' => $faker->name
             ];
         }
-        
         $this->table('groups')->insert($data)->saveData();
     }
 }
