@@ -17,7 +17,7 @@ CREATE TABLE `your_db_name`.`mentors` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
     FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)
-    ON DELETE CASCADE ,
+    ON DELETE SET NULL ,
     PRIMARY KEY (`id`))
     ENGINE = InnoDB;
 
@@ -30,7 +30,7 @@ CREATE TABLE `your_db_name`.`interns` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
     FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)
-    ON DELETE CASCADE ,
+    ON DELETE SET NULL ,
     PRIMARY KEY (`id`))
     ENGINE = InnoDB;
 
