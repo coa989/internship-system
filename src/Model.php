@@ -23,11 +23,11 @@ abstract class Model extends Database
         }
     }
 
-    public function getAll($orderBy, $limit, $page)
+    public function getAll($limit, $page, $sort, $order)
     {
         $offset = ($page - 1) * $limit;
         $tableName = $this->tableName();
-        $statement = $this->prepare("SELECT * FROM `$tableName` ORDER BY $orderBy DESC LIMIT $limit OFFSET $offset");
+        $statement = $this->prepare("SELECT * FROM `$tableName` ORDER BY $sort $order LIMIT $limit OFFSET $offset");
         $statement->execute();
 
         return $statement->fetchAll(\PDO::FETCH_OBJ);
