@@ -50,6 +50,14 @@ Now you can start the server from /public and test endpoints
   | ----------- | 
   | name        |
   
+   - /api/comments
+   
+   | Parameters  |      
+   | ----------- | 
+   | body        |
+   | mentor_id   |
+   | intern_id   |
+  
 ### PUT 
  - /api/mentors/1 
  - /api/interns/1
