@@ -17,9 +17,10 @@ class GroupController extends Controller
 
     public function index()
     {
-        $groups = $this->model->getAll('created_at', 3);
-        $mentors = (new Mentor())->getAll('first_name', 10);
-        $interns = (new Intern())->getAll('first_name', 10);
+        $input = $this->request->getBody();
+        $groups = $this->model->getAll($input['limit'], $input['page'], $input['sort'], $input['order']);
+        $mentors = (new Mentor())->getAll($input['limit'], $input['page'], $input['sort'], $input['order']);
+        $interns = (new Intern())->getAll($input['limit'], $input['page'], $input['sort'], $input['order']);
 
         return $this->response->json(200, [
             'groups' => $groups,
