@@ -8,10 +8,12 @@ class Database
 
     public function __construct()
     {
-        $dsn = $_ENV['DB_DSN'];
+        $conn = $_ENV['DB_CONNECTION'];
+        $host = $_ENV['DB_HOST'];
+        $name = $_ENV['DB_NAME'];
         $user = $_ENV['DB_USER'];
         $password = $_ENV['DB_PASSWORD'];
-        $this->pdo = new \PDO($dsn, $user, $password);
+        $this->pdo = new \PDO($conn . ':host=' . $host . ';dbname=' . $name, $user, $password);
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
 

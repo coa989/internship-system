@@ -1,6 +1,8 @@
 CREATE DATABASE your_db_name;
 
-CREATE TABLE `your_db_name`.`groups` (
+USE your_db_name;
+
+CREATE TABLE `groups` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
     `name` VARCHAR(255) NOT NULL ,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
@@ -8,7 +10,7 @@ CREATE TABLE `your_db_name`.`groups` (
     PRIMARY KEY (`id`))
     ENGINE = InnoDB;
 
-CREATE TABLE `your_db_name`.`mentors` (
+CREATE TABLE `mentors` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
     `first_name` VARCHAR(255) NOT NULL ,
     `last_name` VARCHAR(255) NOT NULL ,
@@ -21,7 +23,7 @@ CREATE TABLE `your_db_name`.`mentors` (
     PRIMARY KEY (`id`))
     ENGINE = InnoDB;
 
-CREATE TABLE `your_db_name`.`interns` (
+CREATE TABLE `interns` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
     `first_name` VARCHAR(255) NOT NULL ,
     `last_name` VARCHAR(255) NOT NULL ,
@@ -34,7 +36,7 @@ CREATE TABLE `your_db_name`.`interns` (
     PRIMARY KEY (`id`))
     ENGINE = InnoDB;
 
-CREATE TABLE `your_db_name`.`comments` (
+CREATE TABLE `comments` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
     `body` TEXT NOT NULL ,
     `mentor_id` BIGINT UNSIGNED NOT NULL ,
