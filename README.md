@@ -11,13 +11,9 @@ cp .env.example .env
 ```
 in .env enter you db credentials, then run:
 ```bash
-vendor/bin/phinx init
-```
-in phinx.php under development environments enter your db credentials and run to seed db
-```bash
 vendor/bin/phinx seed:run
 ```
-Now you can start the server from /public and test endpoints
+Now you can start the server and test endpoints
 
 ## Endpoints
 ### GET
