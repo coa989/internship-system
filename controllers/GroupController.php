@@ -17,12 +17,15 @@ class GroupController extends Controller
     public function index()
     {
         $input = $this->request->getBody();
-        $mentors = (new Mentor())->getAll($input['limit'], $input['page'], $input['sort'], $input['order']);
-        $interns = (new Intern())->getAll($input['limit'], $input['page'], $input['sort'], $input['order']);
+        $allGroups = $this->model->getAll($input['limit'], $input['page'], $input['sort'], $input['order']);
+        foreach ($allGroups as $group) {
+            $group->mentors = $this->model->find('mentors', ['group_id' => $group->id]);
+            $group->interns = $this->model->find('interns', ['group_id' => $group->id]);
+            $groups = $group;
+        }
 
         return $this->response->json(200, [
-            'mentors' => $mentors,
-            'interns' => $interns
+            $groups
         ]);
     }
 

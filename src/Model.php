@@ -25,6 +25,14 @@ abstract class Model extends Database
 
     public function getAll($limit, $page, $sort, $order)
     {
+        if ($sort === null) {
+            $sort = 'created_at';
+        }
+
+        if ($order === null) {
+            $order = 'DESC';
+        }
+
         $offset = ($page - 1) * $limit;
         $tableName = $this->tableName();
         $statement = $this->prepare("SELECT * FROM `$tableName` ORDER BY $sort $order LIMIT $limit OFFSET $offset");
