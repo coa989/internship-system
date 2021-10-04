@@ -20,7 +20,7 @@ return
             'charset' => 'utf8',
         ],
         'development' => [
-            'adapter' => 'mysql',
+            'adapter' => $_ENV['DB_CONNECTION'],
             'host' => $_ENV['DB_HOST'],
             'name' => $_ENV['DB_NAME'],
             'user' => $_ENV['DB_USER'],
