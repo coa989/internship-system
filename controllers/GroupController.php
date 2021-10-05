@@ -18,11 +18,19 @@ class GroupController extends Controller
     {
         $input = $this->request->getBody();
         $allGroups = $this->model->getAll($input['limit'], $input['page'], $input['sort'], $input['order']);
+
+        if (!$allGroups) {
+            return $this->response->json(500, [
+                'errors' => 'Incorrect input value'
+            ]);
+        }
+
         foreach ($allGroups as $group) {
             $group->mentors = $this->model->find('mentors', ['group_id' => $group->id]);
             $group->interns = $this->model->find('interns', ['group_id' => $group->id]);
             $groups[] = $group;
         }
+
         return $this->response->json(200, [
             $groups
         ]);
