@@ -21,9 +21,8 @@ class GroupController extends Controller
         foreach ($allGroups as $group) {
             $group->mentors = $this->model->find('mentors', ['group_id' => $group->id]);
             $group->interns = $this->model->find('interns', ['group_id' => $group->id]);
-            $groups = $group;
+            $groups[] = $group;
         }
-
         return $this->response->json(200, [
             $groups
         ]);
