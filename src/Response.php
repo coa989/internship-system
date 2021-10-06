@@ -15,11 +15,14 @@ class Response
             201 => '201 Created',
             400 => '400 Bad Request',
             403 => '403 Forbidden',
-            404 => '404 Not Found'
+            404 => '404 Not Found',
+            500 => '500 Internal Server Error'
         ];
 
+        header('Status: '.$status[$code]);
+
         echo json_encode([
-            'status' => $status[$code],
+            'status' => $code < 300,
             'data' => $data,
         ]);
     }

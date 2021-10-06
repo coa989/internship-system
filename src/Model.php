@@ -25,20 +25,33 @@ abstract class Model extends Database
 
     public function getAll($limit, $page, $sort, $order)
     {
-        if ($sort === null) {
+        if ($limit === null || $limit === '' || !is_numeric($limit)) {
+            $limit = 5;
+        }
+        
+        if ($page === null || $page === '' || !is_numeric($page)) {
+            $page = 1;
+        }
+        
+        if ($sort === null || $sort === '') {
             $sort = 'created_at';
         }
 
-        if ($order === null) {
+        if ($order === null || $order === '') {
             $order = 'DESC';
         }
 
         $offset = ($page - 1) * $limit;
         $tableName = $this->tableName();
-        $statement = $this->prepare("SELECT * FROM `$tableName` ORDER BY $sort $order LIMIT $limit OFFSET $offset");
-        $statement->execute();
+        try {
+            $statement = $this->prepare("SELECT * FROM `$tableName` ORDER BY $sort $order LIMIT $limit OFFSET $offset");
+            $statement->execute();
+            $result = $statement->fetchAll(\PDO::FETCH_OBJ);
+        } catch (\Exception $e) {
+            return false;
+        }
 
-        return $statement->fetchAll(\PDO::FETCH_OBJ);
+        return $result;
     }
 
     public function findOne($id)

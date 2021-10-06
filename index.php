@@ -35,7 +35,9 @@ $router->post('/api/comments', 'CommentController@store');
 
 // Not Found Route Handler
 $router->set404(function () {
-    return (new Response())->json(404);
+    return (new Response())->json(404, [
+        'errors' => 'Requested URL is not valid'
+    ]);
 });
 
 $router->run();
